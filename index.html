@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>BuyFit</title>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet">
+</head>
+<body>
+<script crossorigin="anonymous"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+    <a class="navbar-brand p-2" href="#">
+        <img height="100" src="logo.png" width="100">
+    </a>
+    <div class="container-fluid">
+        <button class="navbar-toggler" data-bs-target="#collapsibleNavbar" data-bs-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" placeholder="Buscar" type="search">
+            <button class="btn btn-dark" type="submit">Buscar</button>
+        </form>
+        <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item btn btn-primary">
+                    <a class="nav-link text-dark" href="#">Fazer login</a>
+                </li>
+                <li class="nav-item btn">
+                    <span class="text-dark nav-link">|</span>
+                </li>
+                <li class="nav-item btn btn-primary">
+                    <a class="nav-link text-dark" href="#">Cadastrar</a>
+                </li>
+                <li class="nav-item btn">
+                    <span class="text-dark nav-link">|</span>
+                </li>
+                <li class="nav-item btn btn-primary">
+                    <a class="nav-link text-dark" href="#">Minha conta</a>
+                </li>
+                <li class="nav-item btn">
+                    <span class="text-dark nav-link">|</span>
+                </li>
+                <li class="nav-item btn btn-primary">
+                    <a class="nav-link text-dark" href="#">Localizar pedido</a>
+                </li>
+            </ul>
+        </div>
+        <div class="btn btn-primary">
+            <img height="30" id="cart" src="img/shopping-cart-icon.png" width="37">
+            <label for="cart">Carrinho</label>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="d-grid">
+        <div class="row">
+            <div class="col-12 col-md-3">
+                <form class="card p-3 bg-black mt-5">
+                    <p><b>Busca rápida - Escolha produto</b></p>
+                    <p>Encontre o produto certo pelo preço certo</p>
+                    <select class="form-select mb-3" name="type">
+                        <option selected>Tipo</option>
+                        <option value="1">Equipamento</option>
+                        <option value="2">Calçados</option>
+                        <option value="3">Roupas</option>
+                        <option value="4">Acessórios</option>
+                    </select>
+                    <select class="form-select mb-3" name="brand">
+                        <option selected>Marca</option>
+                        <option value="1">Nike</option>
+                        <option value="2">Adidas</option>
+                        <option value="3">Puma</option>
+                        <option value="4">Vans</option>
+                    </select>
+                    <select class="form-select mb-3" name="category">
+                        <option selected>Categoria</option>
+                        <option value="1">Academia e Fitness</option>
+                        <option value="2">Aventura e esportes radicais</option>
+                        <option value="3">Corrida</option>
+                        <option value="4">Bicicleta</option>
+                        <option value="4">Futebol</option>
+                        <option value="4">Lutas</option>
+                        <option value="4">Vôlei</option>
+                        <option value="4">Casual</option>
+                    </select>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label d-flex align-items-center" for="from">
+                                $<input class="form-control" id="from" placeholder="De" type="number">
+                            </label>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label d-flex align-items-center" for="to">
+                                $<input class="form-control" id="to" placeholder="A" type="number">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mt-2 p-2">
+                        <button class="btn btn-primary" type="submit">Buscar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12 col-md-9">
+                <div class="row">
+                    <div class="carousel slide" data-bs-ride="carousel" id="carouselExampleIndicators">
+                        <div class="carousel-indicators">
+                            <button aria-current="true" aria-label="Slide 1" class="active bg-dark"
+                                    data-bs-slide-to="0" data-bs-target="#carouselExampleIndicators"
+                                    type="button"></button>
+                            <button aria-label="Slide 2" class="bg-dark" data-bs-slide-to="1"
+                                    data-bs-target="#carouselExampleIndicators" type="button"></button>
+                            <button aria-label="Slide 3" class="bg-dark" data-bs-slide-to="2"
+                                    data-bs-target="#carouselExampleIndicators" type="button"></button>
+                        </div>
+                        <div class="carousel-inner" id="carousel">
+                            <div class="${classe}">
+                                <img alt="image" class="d-block"
+                                     style="width: 100%; height: 500px; object-fit: scale-down"
+                                     src="${produto.image}">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" data-bs-slide="prev"
+                                data-bs-target="#carouselExampleIndicators"
+                                type="button">
+                            <span aria-hidden="true" class="carousel-control-prev-icon bg-dark"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" data-bs-slide="next"
+                                data-bs-target="#carouselExampleIndicators"
+                                type="button">
+                            <span aria-hidden="true" class="carousel-control-next-icon bg-dark"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-9">
+                <div class="row" id="all-products">
+                </div>
+            </div>
+            <div class="col-12 col-md-3 mt-3">
+                <div class="card card-body col-12 row">
+                    <p><b>Itens mais visitados</b></p>
+                    <div id="most-visited-products">
+                    </div>
+                    <button class="btn btn-primary mt-2" type="button">Veja mais</button>
+                </div>
+                <div class="col-12 mt-4 row card">
+                    <div class="card-body">
+                        <span><b>Newsletter</b></span>
+                        <p>Assine nosso Newsletter!</p>
+                        <input class="form-control" placeholder="Digite seu email" type="email">
+                        <button class="btn btn-primary mt-2 float-end" type="button">Assine agora!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="p-5 row">
+            <div class="col-12 col-md-3">
+                <p><b>Métodos de pagamento</b></p>
+                <a href="#"><img height="96" src="img/visa-icon.svg" width="96"></a>
+                <a href="#"><img height="96" src="img/master-card-icon.svg" width="96"></a>
+                <a href="#"><img height="96" src="img/paypal-icon.svg" width="96"></a>
+            </div>
+            <div class="col-12 col-md-3">
+                <p><b>Links rápidos</b></p>
+                <a class="text-primary" href="#">Ajuda</a>
+                <br>
+                <a class="text-primary" href="#">Política de entrega</a>
+                <br>
+                <a class="text-primary" href="#">Cancelamento e devolução</a>
+                <br>
+                <a class="text-primary" href="#">FAQ</a>
+                <br>
+                <a class="text-primary" href="#">Política de privacidade</a>
+                <br>
+                <a class="text-primary" href="#">Isenção de responsabilidade</a>
+            </div>
+            <div class="col-12 col-md-3">
+                <p><b>Redes sociais</b></p>
+                <a href="www.facebook.com" target="_blank"><img height="32" src="img/facebook-icon.svg" width="32"></a>
+                <a href="www.twitter.com" target="_blank"><img height="32" src="img/twitter-icon.svg" width="32"></a>
+                <a href="www.linkedin.com" target="_blank"><img height="32" src="img/linkedin-icon.svg" width="32"></a>
+            </div>
+            <div class="col-12 col-md-3">
+                <p><b>Contato</b></p>
+                <span>Rua Rui Barbosa, Número 8786, Bairro Boa Vista, 69927-596, Jaraguá do Sul-SC</span>
+                <br>
+                <a class="text-primary" href="#"><span>contato@buyfit.com</span></a>
+                <br>
+                <span>(47) 3505-2246</span>
+            </div>
+        </div>
+    </footer>
+</div>
+<script>
+    fetch('http://diwserver.vps.webdock.cloud:8765/products')
+        .then(res => res.json())
+        .then(data => {
+            let str = ''
+            console.log(data)
+
+            function compareRating(a, b) {
+                return a - b;
+            }
+
+            function checkRating(rating) {
+                let ratingStr;
+                switch (rating) {
+                    case 1:
+                        ratingStr = '★';
+                        break;
+                    case 2:
+                        ratingStr = '★★';
+                        break;
+                    case 3:
+                        ratingStr = '★★★';
+                        break;
+                    case 4:
+                        ratingStr = '★★★★';
+                        break;
+                    case 5:
+                        ratingStr = '★★★★★';
+                        break;
+                    default:
+                        ratingStr = '';
+                }
+                return ratingStr;
+            }
+
+            for (let i = 0; i < data.products.length; i++) {
+                let produto = data.products[i];
+                const rating = Math.round(produto.rating.rate);
+                const ratingStr = checkRating(rating);
+                str += `<div class="col-12 col-md-3 card m-3">
+                            <div class="card-body">
+                                <img class="card-img-top"
+                                    style="width: 100%; height: 200px; object-fit: cover"
+                                     src="${produto.image}">
+                                <span><b>${produto.title}</b></span>
+                                <p class="text-primary">${ratingStr} (${produto.rating.count})</p>
+                                <span><b>R$ ${produto.price}</b></span>
+                            </div>
+                        </div>`
+            }
+            document.getElementById('all-products').innerHTML = str
+
+            maisVisitados = data.products;
+
+            maisVisitados.map(product => product.rating.count).sort(compareRating);
+
+            maisVisitados = maisVisitados.slice(0, 5);
+            str = '';
+            for (let j = 0; j < maisVisitados.length; j++) {
+                let produto = maisVisitados[j];
+                const rating = Math.round(produto.rating.rate);
+                const ratingStr = checkRating(rating);
+                str += `<div class="row mb-3">
+                        <div class="col-6">
+                            <img class="card-img"
+                                    style="width: 100%; height: 150px; object-fit: cover"
+                                     src="${produto.image}">
+                        </div>
+                        <div class="col-6">
+                            <span>${produto.title}</span>
+                            <p class="text-primary">${ratingStr} (${produto.rating.count})</p>
+                            <span>R$ ${produto.price}</span>
+                        </div>
+                    </div>
+                    <hr>`
+            }
+            document.getElementById('most-visited-products').innerHTML = str
+
+            str = '';
+            console.log(maisVisitados)
+            for (let j = 0; j < 3; j++) {
+                let produto = maisVisitados[j];
+                const classe = j === 0 ? 'carousel-item active' : 'carousel-item';
+                str += `<div class="${classe}">
+                                <img alt="image" class="d-block"
+                                     style="width: 100%; height: 500px; object-fit: scale-down"
+                                     src="${produto.image}">
+                            </div>`
+            }
+            console.log(str)
+            document.getElementById('carousel').innerHTML = str;
+        })
+</script>
+</body>
+
