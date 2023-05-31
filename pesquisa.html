@@ -13,7 +13,7 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-    <a class="navbar-brand p-2" href="#">
+    <a class="navbar-brand p-2" href="index.html">
         <img height="100" src="logo.png" width="100">
     </a>
     <div class="container-fluid">
@@ -57,53 +57,6 @@
 </nav>
 <div class="container">
     <div class="d-grid">
-        <div class="row">
-            <div class="col-12 col-md-3">
-                <form class="card p-3 bg-black mt-5" id="formCategoria">
-                    <p><b>Busca rápida - Escolha categoria</b></p>
-                    <p>Selecione para encontrar o produto que você está procurando!</p>
-                    <select class="form-select mb-3" id="category" name="category">
-                    </select>
-                    <div class="row mt-2 p-2">
-                        <button class="btn btn-primary" type="submit">Buscar</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-12 col-md-9">
-                <div class="row">
-                    <div class="carousel slide" data-bs-ride="carousel" id="carouselExampleIndicators">
-                        <div class="carousel-indicators">
-                            <button aria-current="true" aria-label="Slide 1" class="active bg-dark"
-                                    data-bs-slide-to="0" data-bs-target="#carouselExampleIndicators"
-                                    type="button"></button>
-                            <button aria-label="Slide 2" class="bg-dark" data-bs-slide-to="1"
-                                    data-bs-target="#carouselExampleIndicators" type="button"></button>
-                            <button aria-label="Slide 3" class="bg-dark" data-bs-slide-to="2"
-                                    data-bs-target="#carouselExampleIndicators" type="button"></button>
-                        </div>
-                        <div class="carousel-inner" id="carousel">
-                            <div class="${classe}">
-                                <img alt="image" class="d-block"
-                                     src="${produto.image}"
-                                     style="width: 100%; max-height: 500px; object-fit: scale-down">
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" data-bs-slide="prev"
-                                data-bs-target="#carouselExampleIndicators"
-                                type="button">
-                            <span aria-hidden="true" class="carousel-control-prev-icon bg-dark"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" data-bs-slide="next"
-                                data-bs-target="#carouselExampleIndicators"
-                                type="button">
-                            <span aria-hidden="true" class="carousel-control-next-icon bg-dark"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class="col-9">
                 <div class="row" id="all-products">
@@ -170,29 +123,20 @@
     init();
 
     async function init() {
-        await buscarCategorias();
-        const allProducts = await buscarProdutos();
+        const params = getURLParams();
+        console.log(params)
+        const category = params.category;
+        let allProducts;
+        if (category) {
+            allProducts = await buscarProdutosPorCategoria(category);
+        } else {
+            allProducts = await buscarProdutos();
+        }
         await buscarMaisVisitados(allProducts);
-
-        var formCategoria = document.getElementById('formCategoria');
-        formCategoria.addEventListener('submit', processFormCategory);
 
         var formSearch = document.getElementById('formSearch');
         formSearch.addEventListener('submit', processFormSearch);
         console.log(window.location)
-    }
-
-    async function buscarCategorias() {
-        fetch('https://diwserver.vps.webdock.cloud/products/categories')
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                let categories = '<option selected>Categoria</option>';
-                data.forEach(categoria => {
-                    categories += `<option>${categoria}</option>`
-                })
-                document.getElementById('category').innerHTML = categories;
-            });
     }
 
     async function buscarMaisVisitados(produtos) {
@@ -205,12 +149,12 @@
             const rating = Math.round(produto.rating.rate);
             const ratingStr = checkRating(rating);
             str += `<div class="row mb-3">
-                        <a href="detalhes.html?id=${produto.id}"
+                        <a href="detalhes.html?${produto.id}"
                          target="_blank"
                           style="text-decoration: none; color: inherit">
                         <div class="col-6">
                             <img class="card-img"
-                                    style="width: 100%; max-height: 150px; object-fit: cover"
+                                    style="width: 100%; height: 150px; object-fit: cover"
                                      src="${produto.image}">
                         </div>
                         <div class="col-6">
@@ -229,13 +173,9 @@
             let produto = maisVisitados[j];
             const classe = j === 0 ? 'carousel-item active' : 'carousel-item';
             str += `<div class="${classe}">
-                        <a href="detalhes.html?id=${produto.id}"
-                                 target="_blank"
-                                 style="text-decoration: none; color: inherit">
                                 <img alt="image" class="d-block"
                                      style="width: 100%; max-height: 500px; object-fit: scale-down"
                                      src="${produto.image}">
-                        </a>
                             </div>`
         }
         console.log(str)
@@ -262,7 +202,7 @@
                          target="_blank"
                           style="text-decoration: none; color: inherit">
                                 <img class="card-img-top"
-                                    style="width: 100%; max-height: 200px; object-fit: cover"
+                                    style="width: 100%; height: 200px; object-fit: cover"
                                      src="${produto.image}">
                                 <span><b>${produto.title}</b></span>
                                 <p class="text-primary">${ratingStr} (${produto.rating.count})</p>
@@ -271,6 +211,48 @@
                             </div>
                         </div>`
                         }
+                        document.getElementById('all-products').innerHTML = str;
+                    })
+                fetchPromises.push(fetchPromise);
+            }
+            Promise.all(fetchPromises)
+                .then(() => {
+                    document.getElementById('all-products').innerHTML = str;
+                    resolve(produtos);
+                });
+        })
+    }
+
+    async function buscarProdutosPorCategoria(categoria) {
+        return new Promise(resolve => {
+            let produtos = [];
+            let str = ''
+            let fetchPromises = [];
+            for (let i = 0; i < 10; i++) {
+                const fetchPromise = fetch(`https://diwserver.vps.webdock.cloud/products/category/${categoria}?page=${i}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        for (let i = 0; i < data.products.length; i++) {
+                            let produto = data.products[i];
+                            produtos.push(produto);
+                            const rating = Math.round(produto.rating.rate);
+                            const ratingStr = checkRating(rating);
+                            str += `<div class="col-12 col-md-3 card m-3">
+                            <div class="card-body">
+                            <a href="detalhes.html?id=${produto.id}"
+                         target="_blank"
+                          style="text-decoration: none; color: inherit">
+                                <img class="card-img-top"
+                                    style="width: 100%; height: 200px; object-fit: cover"
+                                     src="${produto.image}">
+                                <span><b>${produto.title}</b></span>
+                                <p class="text-primary">${ratingStr} (${produto.rating.count})</p>
+                                <span><b>R$ ${produto.price}</b></span>
+                                </a>
+                            </div>
+                        </div>`
+                        }
+                        document.getElementById('all-products').innerHTML = str;
                     })
                 fetchPromises.push(fetchPromise);
             }
@@ -310,17 +292,6 @@
         return b.rating.count - a.rating.count
     }
 
-    async function processFormCategory(event) {
-        event.preventDefault();
-        var form = document.getElementById('formCategoria');
-        var category = form.elements['category'].value;
-        const url = window.location.origin + "/pesquisa.html";
-        parameters = {
-            category: category
-        }
-        appendParamsAndNavigate(url, parameters)
-    }
-
     async function processFormSearch(event) {
         event.preventDefault();
         var form = document.getElementById('formSearch');
@@ -337,6 +308,20 @@
             .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
             .join("&");
         window.location.href = url + (url.includes("?") ? "&" : "?") + paramString;
+    }
+
+    function getURLParams() {
+        const paramsString = window.location.search.slice(1);
+        const paramsArray = paramsString.split("&");
+        const params = {};
+
+        paramsArray.forEach(param => {
+            const [key, value] = param.split("=");
+            const decodedKey = decodeURIComponent(key);
+            params[decodedKey] = decodeURIComponent(value);
+        });
+
+        return params;
     }
 </script>
 </body>
